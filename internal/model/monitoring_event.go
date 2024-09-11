@@ -7,6 +7,6 @@ type MonitoringEventPayload struct {
 }
 
 type MonitoringEventMessage struct {
-	BaseEventMessage
+	BaserEventHeader
 	Payload MonitoringEventPayload `json:"data"`
 }

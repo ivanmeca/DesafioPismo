@@ -32,9 +32,8 @@ services:
             - "25432:5432"
         environment:
             POSTGRES_DB: pismo
-            PGUSER: pismo
             POSTGRES_USER: admin
-            POSTGRES_PASSWORD: 1o23456
+            POSTGRES_PASSWORD: 123456
         networks:
             db_network:
                 aliases:

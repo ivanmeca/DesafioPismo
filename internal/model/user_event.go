@@ -6,6 +6,6 @@ type UserOperationEventPayload struct {
 }
 
 type UserOperationEventMessage struct {
-	BaseEventMessage
+	BaserEventHeader
 	Payload UserOperationEventPayload `json:"data"`
 }

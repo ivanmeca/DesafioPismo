@@ -7,16 +7,14 @@ import (
 
 type QueueProducer struct {
 	amqpCh   *amqp.Channel
-	message  *domain.Message
 	exchange string
 	routing  string
 	queue    string
 }
 
-func NewQueueProducer(amqpCh *amqp.Channel, message *domain.Message, queueConfig *domain.QueueConfiguration) *QueueProducer {
+func NewQueueProducer(amqpCh *amqp.Channel) *QueueProducer {
 	return &QueueProducer{
 		amqpCh:   amqpCh,
-		message:  message,
 		exchange: queueConfig.Exchange,
 		routing:  queueConfig.RoutingKey,
 		queue:    queueConfig.Queue,
@@ -47,8 +45,8 @@ func (q *QueueProducer) InitializeExchange() error {
 	return nil
 }
 
-func (q *QueueProducer) Publish() error {
-	messageBytes, err := json.Marshal(q.message)
+func (q *QueueProducer) Publish(msg interface{}) error {
+	messageBytes, err := json.Marshal(msg)
 	if err != nil {
 		return err
 	}

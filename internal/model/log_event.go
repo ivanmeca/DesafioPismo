@@ -6,6 +6,6 @@ type LogEventPayload struct {
 }
 
 type LogEventMessage struct {
-	BaseEventMessage
+	BaserEventHeader
 	Payload LogEventPayload `json:"data"`
 }

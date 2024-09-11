@@ -43,16 +43,6 @@ type DBConfig struct {
 	Password string
 }
 
-// Valores de conf default
-func init() {
-	viper.SetDefault(DBHost, "localhost")
-	viper.SetDefault(DBPort, 25432)
-	viper.SetDefault(DBUser, "admin")
-	viper.SetDefault(DBName, "event-processor")
-	viper.SetDefault(SSLMode, "disable")
-	viper.SetDefault(DBPassword, "123456")
-}
-
 func Load() (*Config, error) {
 	viper.SetEnvPrefix(EnvPrefix)
 	viper.AutomaticEnv()

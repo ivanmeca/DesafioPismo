@@ -4,32 +4,37 @@ import (
 	"context"
 	"fmt"
 	"github.com/ivanmeca/DesafioPismo/v2/config"
-	"gorm.io/gorm"
+	"github.com/ivanmeca/DesafioPismo/v2/pkg/database"
+	"go.uber.org/zap"
 )
 
 type IApplication interface {
-	Init(ctx context.Context, config *config.Config, db *gorm.DB) error
+	Init(config *config.Config) error
 	Run(ctx context.Context) error
 }
 
 type app struct {
 	appCtx         context.Context
 	configuration  *config.Config
-	dataRepository database.IRepository
+	dataRepository database.IEventRepository
+	logger         zap.Logger
 }
 
 func NewApp() IApplication {
 	return &app{}
 }
 
-func (a *app) Init(ctx context.Context, config *config.Config, db *gorm.DB) error {
-	a.appCtx = ctx
+func (a *app) Init(config *config.Config) error {
 	a.configuration = config
-	a.dataRepository = database.NewRepository(db)
-	//migrations.RunMigrations(database.GetDatabase())
-	c := controllers.NewController(a.dataRepository)
-	jwtService := services.NewJWTService(a.dataRepository)
-	a.router = routes.SetupRouter(jwtService, c)
+	a.logger = zap.Logger{}
+
+	db, err := database.StartDB(config.GetDB())
+	if err != nil {
+		return err
+	}
+
+	a.dataRepository = database.NewGormRepository(db, a.logger)
+	database.RunMigrations(db)
 	return nil
 }
 

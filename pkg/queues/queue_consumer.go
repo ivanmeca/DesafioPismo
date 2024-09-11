@@ -11,9 +11,8 @@ import (
 )
 
 type AmqpQueueProtocol struct {
-	amqpCh            *amqp.Channel
-	messageDispatcher MessageTreater
-	queue             string
+	amqpCh *amqp.Channel
+	queue  string
 }
 
 func NewAmqpQueueProtocol(amqpCh *amqp.Channel, queue string, messageTreater MessageTreater) *AmqpQueueProtocol {

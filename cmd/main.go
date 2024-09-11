@@ -3,43 +3,38 @@ package main
 import (
 	"context"
 	"github.com/ivanmeca/DesafioPismo/v2/config"
-	"github.com/ivanmeca/DesafioPismo/v2/pkg/database"
+	"github.com/ivanmeca/DesafioPismo/v2/internal/app"
+	"github.com/urfave/cli"
 	"os"
 	"os/signal"
 	"sort"
 )
 
 func runApplication(cli *cli.Context) error {
-	c := context.Background()
-	ctx, cancel := context.WithCancel(c)
-	defer cancel()
 
-	appMan := application.NewApp()
-
+	appMan := app.NewApp()
 	cfg, errLoad := config.Load()
 	if errLoad != nil {
 		panic(errLoad)
 	}
 
-	db, err := database.StartDB(cfg.GetDB())
+	err := appMan.Init(cfg)
 	if err != nil {
 		return err
 	}
 
-	err = appMan.Init(ctx, cfg, db)
-	if err != nil {
-		return err
-	}
+	return appMan.Run(gracefullyShutdown())
+}
 
-	err = appMan.Run(ctx)
-	if err != nil {
-		return err
-	}
-
-	quit := make(chan os.Signal)
+func gracefullyShutdown() context.Context {
+	ctx, cancel := context.WithCancel(context.Background())
+	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt)
-	<-quit
-	return nil
+	go func() {
+		<-quit
+		cancel()
+	}()
+	return ctx
 }
 
 func main() {
