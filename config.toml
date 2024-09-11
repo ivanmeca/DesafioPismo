@@ -1,0 +1,6 @@
+host = "localhost"
+database_port = 25432
+database_user = "admin"
+database_name = "event-processor"
+ssl_mode = "disable"
+database_password = "123456"
