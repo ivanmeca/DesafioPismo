@@ -8,5 +8,5 @@ type MonitoringEventPayload struct {
 
 type MonitoringEventMessage struct {
 	BaserEventHeader
-	Payload MonitoringEventPayload `json:"data"`
+	Payload JSONB `gorm:"type:jsonb",json:"data"`
 }

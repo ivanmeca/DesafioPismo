@@ -43,7 +43,7 @@ func main() {
 		cli.StringFlag{},
 	}
 	app.Version = "1.0"
-	app.Name = "ApplicationName"
+	app.Name = "Pismo challenge app"
 	app.Usage = "Usage"
 	app.Description = "Event Processor"
 	app.Copyright = "Copyright"
