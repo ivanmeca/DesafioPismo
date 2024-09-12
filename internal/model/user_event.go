@@ -7,5 +7,5 @@ type UserOperationEventPayload struct {
 
 type UserOperationEventMessage struct {
 	BaserEventHeader
-	Payload JSONB `gorm:"type:jsonb",json:"data"`
+	UserOperationEventPayload
 }

@@ -3,7 +3,7 @@
   "producer": "Event-Producer 01",
   "client": "client 01",
   "Reference-name": "Monitoring",
-  "data": {
-    "metric1": "value1"
-  }
+  "object-id": "123456",
+  "traceId": "123123",
+  "message": "Monitoring message 1"
 }

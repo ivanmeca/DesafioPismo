@@ -7,5 +7,5 @@ type LogEventPayload struct {
 
 type LogEventMessage struct {
 	BaserEventHeader
-	Payload JSONB `gorm:"type:jsonb",json:"data"`
+	LogEventPayload
 }

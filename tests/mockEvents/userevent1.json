@@ -3,7 +3,6 @@
   "producer": "Event-Producer 01",
   "client": "client 01",
   "Reference-name": "User",
-  "data": {
-    "operation":"user create"
-  }
+  "user-id": "123234",
+  "operation": "user profile update"
 }

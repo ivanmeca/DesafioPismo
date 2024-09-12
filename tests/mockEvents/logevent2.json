@@ -3,8 +3,6 @@
   "producer": "Event-Producer 02",
   "client": "client 01",
   "Reference-name": "Log",
-  "data": {
-    "level": "info",
-    "msg": "test log message 2"
-  }
+  "level": "info",
+  "message": "test log message 2"
 }

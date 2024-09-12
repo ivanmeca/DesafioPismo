@@ -2,7 +2,6 @@ package app
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/ivanmeca/DesafioPismo/v2/internal/model"
 	"github.com/ivanmeca/DesafioPismo/v2/pkg/database"
 	"go.uber.org/zap"
@@ -23,7 +22,6 @@ type EventProcessor struct {
 func (ep *EventProcessor) HandleMessage(message []byte) bool {
 
 	event := model.BaseEventMessage{}
-
 	err := json.Unmarshal(message, &event)
 	if err != nil {
 		ep.logger.Errorf("Error unmarshalling message: %s", err)
@@ -32,21 +30,61 @@ func (ep *EventProcessor) HandleMessage(message []byte) bool {
 
 	switch event.ReferenceName {
 	case model.LogEvent:
-		data := model.LogEventMessage{}
-		err := json.Unmarshal(message, &data)
-		if err != nil {
-			ep.logger.Errorf("Error unmarshalling message: %s", err)
-			return false
-		}
-		_, err = ep.dataRepository.CreateLogEvent(&data)
-		if err != nil {
-			ep.logger.Errorf("Error saving event: %s", err)
-			return false
-		}
+		ep.logger.Info("New log message received")
+		return ep.HandleLogEvent(message)
+	case model.MonitoringEvent:
+		ep.logger.Info("New monitoring message received")
+		return ep.HandleMonitoringEvent(message)
+	case model.UserEvent:
+		ep.logger.Info("New user message received")
+		return ep.HandleUserEvent(message)
+	default:
+		ep.logger.Errorf("Unhandled event: %s", event.ReferenceName)
+		return false
 	}
+}
 
-	fmt.Println(event.ReferenceName)
-	fmt.Println(string(message))
+func (ep *EventProcessor) HandleMonitoringEvent(message []byte) bool {
+	data := model.MonitoringEventMessage{}
+	err := json.Unmarshal(message, &data)
+	if err != nil {
+		ep.logger.Errorf("Error unmarshalling message: %s", err)
+		return false
+	}
+	_, err = ep.dataRepository.CreateMonitoringEvent(&data)
+	if err != nil {
+		ep.logger.Errorf("Error saving event: %s", err)
+		return false
+	}
+	return true
+}
 
+func (ep *EventProcessor) HandleLogEvent(message []byte) bool {
+	data := model.LogEventMessage{}
+	err := json.Unmarshal(message, &data)
+	if err != nil {
+		ep.logger.Errorf("Error unmarshalling message: %s", err)
+		return false
+	}
+	_, err = ep.dataRepository.CreateLogEvent(&data)
+	if err != nil {
+		ep.logger.Errorf("Error saving event: %s", err)
+		return false
+	}
+	return true
+}
+
+func (ep *EventProcessor) HandleUserEvent(message []byte) bool {
+	data := model.UserOperationEventMessage{}
+	err := json.Unmarshal(message, &data)
+	if err != nil {
+		ep.logger.Errorf("Error unmarshalling message: %s", err)
+		return false
+	}
+	_, err = ep.dataRepository.CreateUserOperationEvent(&data)
+	if err != nil {
+		ep.logger.Errorf("Error saving event: %s", err)
+		return false
+	}
 	return true
 }
