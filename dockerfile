@@ -10,7 +10,7 @@ COPY . .
 RUN go mod tidy
 
 # Build
-RUN CGO_ENABLE=0 GOOS=linux go build -ldflags="-s -w" -o ./build/event-processor
+RUN CGO_ENABLE=0 GOOS=linux go build -ldflags="-s -w" -o ./build/event-processor ./cmd
 
 FROM ubuntu:latest as runner
 RUN apt-get update && apt-get install -y tzdata

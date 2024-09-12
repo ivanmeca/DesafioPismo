@@ -1,14 +1,27 @@
 
 services:
-#    event-processor:
-#        build:
-#            context: .
-#        restart: unless-stopped
-#        ports:
-#            - '${PORT}:${PORT}'
-#        environment:
-#            - PORT=${PORT}
-#
+    event-processor:
+        build:
+            context: .
+        restart: unless-stopped
+        environment:
+            APP_DATABASE_HOST: db.svc
+            APP_DATABASE_PORT: 5432
+            APP_DATABASE_NAME: pismo
+            APP_DATABASE_USER: admin
+            APP_DATABASE_PASSWORD: 123456
+            APP_SSL_MODE: disable
+            APP_QUEUE_LOGIN: dummyUser
+            APP_QUEUE_PASSWORD: dummyPass
+            APP_QUEUE_HOST: queue.svc
+            APP_QUEUE_PORT: 5672
+            APP_QUEUE: events
+        networks:
+            - db_network
+        depends_on:
+            db:
+                condition: service_healthy
+
     rabbitmq:
         image: rabbitmq:3.12.4-management
         ports:
