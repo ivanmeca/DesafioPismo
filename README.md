@@ -15,6 +15,63 @@ para receber eventos. A solução resolve implementa o event-processor proposto 
 
 ![](./assets/Arquitetura.png)
 
+## Solucão proposta
+
+O sistema está preparado para realizar a triagem de eventos e realizar a persistência dos mesmos em banco de dados,
+para posterior consumo por outro serviço.
+
+O formato básico de um envento do sistema deve conter esses campos:
+
+`{
+"id": "6b55a493-7029-4a1d-ba41-4cd241d5b819",
+"producer": "Event-Producer 01",
+"client": "client 01",
+"Reference-name": "Log",
+}
+`
+A depender do valor encontrado na chave `Reference-name`, o sistema vai reconhecer a tratar os seguintes eventos:
+
+- Evento de log: o `reference-name` deve conter o valor `log`, e o evento adiciona as chaves de `level` e `message` ao
+  cabeçalho default, conforme abaixo:
+  `{
+  "id": "6b55a493-7029-4a1d-ba41-4cd241d5b819",
+  "producer": "Event-Producer 01",
+  "client": "client 01",
+  "Reference-name": "Log",
+  "level": "info",
+  "message": "test log message"
+  }`
+
+---
+
+- Evento de monitoramento: o `reference-name` deve conter o valor `Monitoring`, e o evento adiciona as chaves de
+  `object-id`, `traceId` e `message` ao cabeçalho default, conforme abaixo:
+  `{
+  "id": "6b55a493-7029-4a1d-ba43-4cd241d5b819",
+  "producer": "Event-Producer 01",
+  "client": "client 01",
+  "Reference-name": "Monitoring",
+  "object-id": "123456",
+  "traceId": "123123",
+  "message": "Monitoring message 1"
+}`
+
+---
+
+- Evento de ação do usuário: o `reference-name` deve conter o valor `User`, e o evento adiciona as chaves de `user-id` e
+  `operation` ao cabeçalho default, conforme abaixo:
+  `{
+  "id": "6b55a493-7029-4a1d-ba45-4cd241d5b819",
+  "producer": "Event-Producer 01",
+  "client": "client 01",
+  "Reference-name": "User",
+  "user-id": "123234",
+  "operation": "user profile update"
+}`
+
+---
+Mensagens que não seguirem esse padrão serão transferidas para a fila Events-Error a medida em que forem consumidas
+
 ## Executando a aplicação
 
 Inicie o serviço e as intâncias do postgresql (banco de dados), rabbitmq (mensageria) e o pgadmin (plataforma de
