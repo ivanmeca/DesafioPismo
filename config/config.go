@@ -16,6 +16,7 @@ const (
 	QueuePassword = "queue_password"
 	QueueHost     = "queue_host"
 	QueuePort     = "queue_port"
+	Queue         = "queue"
 )
 
 type Config struct {
@@ -23,15 +24,12 @@ type Config struct {
 	queue QueueConfig
 }
 
-type BackConfig struct {
-	Port string
-}
-
 type QueueConfig struct {
 	Login    string
 	Password string
 	Host     string
 	Port     int
+	Queue    string
 }
 
 type DBConfig struct {
@@ -73,6 +71,7 @@ func Load() (*Config, error) {
 		Password: viper.GetString(QueuePassword),
 		Host:     viper.GetString(QueueHost),
 		Port:     viper.GetInt(QueuePort),
+		Queue:    viper.GetString(Queue),
 	}
 
 	return cfg, nil

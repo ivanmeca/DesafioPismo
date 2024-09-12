@@ -16,7 +16,7 @@ type EventRepository interface {
 	IEventRepository
 }
 
-func NewGormRepository(db *gorm.DB, logger zap.Logger) *Repository {
+func NewGormRepository(db *gorm.DB, logger zap.SugaredLogger) *Repository {
 	return &Repository{
 		db:     db,
 		logger: logger,
@@ -24,7 +24,7 @@ func NewGormRepository(db *gorm.DB, logger zap.Logger) *Repository {
 }
 
 type Repository struct {
-	logger zap.Logger
+	logger zap.SugaredLogger
 	db     *gorm.DB
 }
 

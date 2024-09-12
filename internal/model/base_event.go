@@ -8,15 +8,15 @@ import (
 )
 
 const (
-	LogEvent        = "LogEvent"
-	UserEvent       = "UserEvent"
-	MonitoringEvent = "MonitoringEvent"
+	LogEvent        = "Log"
+	UserEvent       = "User"
+	MonitoringEvent = "Monitoring"
 )
 
 type BaserEventHeader struct {
 	ID            uuid.UUID `gorm:"type:uuid"`
 	Producer      string    `json:"producer"`
-	Sender        string    `json:"sender"`
+	Client        string    `json:"client"`
 	ReferenceName string    `json:"reference-name"`
 }
 
@@ -30,7 +30,7 @@ type BaseEventMessage struct {
 }
 
 // JSONB Interface for JSONB Field of yourTableName Table
-type JSONB []interface{}
+type JSONB map[string]interface{}
 
 // Value Marshal
 func (a JSONB) Value() (driver.Value, error) {

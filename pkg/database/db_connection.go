@@ -32,7 +32,7 @@ func StartDB(conf config.DBConfig) (*gorm.DB, error) {
 		conf.Sslmode, conf.Password)
 
 	conn, err := gorm.Open(postgres.Open(str), &gorm.Config{
-		Logger: GetLogger(),
+		//Logger: GetLogger(),
 	})
 	if err != nil {
 		fmt.Println("Could not connect to the Postgres Database")

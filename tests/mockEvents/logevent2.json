@@ -1,0 +1,10 @@
+{
+  "id": "6b55a493-7029-4a1d-ba42-4cd241d5b719",
+  "producer": "Event-Producer 02",
+  "client": "client 01",
+  "Reference-name": "Log",
+  "data": {
+    "level": "info",
+    "msg": "test log message 2"
+  }
+}

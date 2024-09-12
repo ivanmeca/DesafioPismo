@@ -1,0 +1,7 @@
+{
+  "client": "client 01",
+  "Reference-name": "Monitoring Event",
+  "data": {
+    "metric1": "value1"
+  }
+}

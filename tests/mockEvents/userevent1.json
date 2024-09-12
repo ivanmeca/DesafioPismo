@@ -1,0 +1,9 @@
+{
+  "id": "6b55a493-7029-4a1d-ba45-4cd241d5b819",
+  "producer": "Event-Producer 01",
+  "client": "client 01",
+  "Reference-name": "User",
+  "data": {
+    "operation":"user create"
+  }
+}
